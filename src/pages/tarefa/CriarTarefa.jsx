@@ -12,9 +12,12 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
-const CriarTarefa = ({ handleClose, tarefas, setTarefas }) => {
+
+
+//Adicionada utilização da função React.forwardRef para correta utilização do @Mui/material/Modal
+//referencia: https://mui.com/material-ui/guides/composition/#caveat-with-refs
+const CriarTarefa = React.forwardRef(({ handleClose, tarefas, setTarefas }, ref) => {
   const [novaTarefa, setNovaTarefa] = useState({
     id: gerarNumeroAleatorio(1, 2000),
     tituloTarefa: "",
@@ -193,7 +196,7 @@ const CriarTarefa = ({ handleClose, tarefas, setTarefas }) => {
       </Card>
     </Grid>
   );
-};
+});
 
 const style = {
   position: "absolute",
