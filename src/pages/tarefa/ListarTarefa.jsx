@@ -157,8 +157,7 @@ const ListarTarefa = () => {
         */}
         <EditarTarefa
           handleCloseEditar={() => setOpenEditar(false)}
-          idTarefaSelecionada={tarefaSelecionada}
-          tarefas={tarefas}
+          tarefaSelecionada={tarefaSelecionada}          
           setTarefas={setTarefas}
         />
       </Modal>
