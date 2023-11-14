@@ -72,12 +72,10 @@ const ListarTarefa = () => {
       body: JSON.stringify(tarefa),
     })
       .then((response) => response.json())
-      .then((tarefaAtualizada) => {
-        setTarefas((tarefas) =>
-          tarefas.map((t) =>
-            t.idTarefa === tarefaAtualizada.id ? tarefaAtualizada : t
-          )
-        );
+      .then((tarefaAtualizada) => {     
+        //Removida a call pra setTarefas   
+        //Ao inves disso vamos informar ao effect q os dados estão desatualizados
+        setDadosCarregados(false);                
       });    
   };
 
