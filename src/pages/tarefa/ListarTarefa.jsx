@@ -49,7 +49,8 @@ const ListarTarefa = () => {
     }
   }, [dadosCarregados]);
 
-  const handleEditar = (id) => {
+  //Troquei o nome da constante para algo mais direto a sua responsabilidade
+  const handleAbrirMenuEditar = (id) => {
     const tarefaParaEditar = tarefas.find((obj) => obj.id === id);
     setTarefaSelecionada(tarefaParaEditar);
     setOpenEditar(true);
@@ -57,6 +58,27 @@ const ListarTarefa = () => {
 
   const handleDeletar = (id) => {
     setTarefas((current) => current.filter((tarefa) => tarefa.id !== id));
+  };
+
+  //Transferi a responsabilidade de atualizar a lista de tarefas a pagina de Listar
+  //assim a lista vai ser atualizada imediatamente.
+  //O mesmo não ocorreria se o setTarefas fosse chamado da tela de editar
+  const handleEditar = (tarefa) => {
+    fetch(`http://localhost:5000/tarefas/${tarefa.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(tarefa),
+    })
+      .then((response) => response.json())
+      .then((tarefaAtualizada) => {
+        setTarefas((tarefas) =>
+          tarefas.map((t) =>
+            t.idTarefa === tarefaAtualizada.id ? tarefaAtualizada : t
+          )
+        );
+      });    
   };
 
   return (
@@ -96,7 +118,7 @@ const ListarTarefa = () => {
                         <Button
                           variant="contained"
                           color="success"
-                          onClick={() => handleEditar(row.id)}
+                          onClick={() => handleAbrirMenuEditar(row.id)}
                         >
                           <EditIcon fontSize="small" />
                         </Button>
@@ -156,6 +178,7 @@ const ListarTarefa = () => {
             em EditarTarefa
         */}
         <EditarTarefa
+          handleEditar={handleEditar}
           handleCloseEditar={() => setOpenEditar(false)}
           tarefaSelecionada={tarefaSelecionada}          
           setTarefas={setTarefas}
