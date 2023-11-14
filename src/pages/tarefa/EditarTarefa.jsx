@@ -1,89 +1,48 @@
-import React, { useState, useEffect } from "react";
 import {
-  Grid,
-  Card,
-  CardHeader,
-  CardContent,
   Button,
+  Card,
+  CardContent,
+  CardHeader,
   FormControl,
-  InputLabel,
-  Input,
   FormHelperText,
-  Select,
+  Grid,
+  Input,
+  InputLabel,
   MenuItem,
+  Select,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 
-const EditarTarefa = ({
-  handleCloseEditar,
-  idTarefaSelecionada,
-  tarefas,
-  setTarefas,
-}) => {
-  const [tarefaEditada, setTarefaEditada] = useState({
-    tituloTarefa: "",
-    descricaoTarefa: "",
-    inicioTarefa: "",
-    fimTarefa: "",
-    recursoTarefa: "",
-    statusTarefa: "",
+
+//Adicionada utilização da função React.forwardRef para correta utilização do @Mui/material/Modal
+//referencia: https://mui.com/material-ui/guides/composition/#caveat-with-refs
+const EditarTarefa = React.forwardRef(({tarefaSelecionada, handleEditar, handleCloseEditar}, ref) => 
+{
+  
+  const [tarefa, setTarefa] = useState({
+    ...tarefaSelecionada
   });
 
-  useEffect(() => {
-    const tarefaEncontrada = tarefas.find(
-      (tarefa) => tarefa.idTarefa === idTarefaSelecionada
-    );
-    console.log(tarefaEncontrada);
-    setTarefaEditada(tarefaEncontrada || {});
-  }, [idTarefaSelecionada, tarefas]);
-
-  const {
-    tituloTarefa,
-    descricaoTarefa,
-    inicioTarefa,
-    fimTarefa,
-    recursoTarefa,
-    statusTarefa,
-  } = tarefaEditada;
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setTarefaEditada((prevTarefa) => ({
+    setTarefa((prevTarefa) => ({
       ...prevTarefa,
       [name]: value,
     }));
   };
 
   const handleRecursoChange = (event) => {
-    setTarefaEditada((prevTarefa) => ({
+    setTarefa((prevTarefa) => ({
       ...prevTarefa,
       recursoTarefa: event.target.value,
     }));
   };
 
   const handleStatusChange = (event) => {
-    setTarefaEditada((prevTarefa) => ({
+    setTarefa((prevTarefa) => ({
       ...prevTarefa,
       statusTarefa: event.target.value,
     }));
-  };
-
-  const handleEditar = () => {
-    fetch(`http://localhost:5000/tarefas/${idTarefaSelecionada}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(tarefaEditada),
-    })
-      .then((response) => response.json())
-      .then((tarefaAtualizada) => {
-        setTarefas((tarefas) =>
-          tarefas.map((t) =>
-            t.idTarefa === idTarefaSelecionada ? tarefaAtualizada : t
-          )
-        );
-      });
-    handleCloseEditar();
   };
 
   return (
@@ -97,7 +56,7 @@ const EditarTarefa = ({
                 name="tituloTarefa"
                 id="tarefa_titulo"
                 aria-describedby="tarefa_titulo_helper_text"
-                value={tarefaEditada.tituloTarefa}
+                value={tarefa.tituloTarefa}
                 onChange={handleInputChange}
               />
               <FormHelperText id="tarefa_titulo_helper_text">
@@ -111,7 +70,7 @@ const EditarTarefa = ({
                 name="descricaoTarefa"
                 id="tarefa_descricao"
                 aria-describedby="tarefa_descricao_helper_text"
-                value={tarefaEditada.descricaoTarefa}
+                value={tarefa.descricaoTarefa}
                 onChange={handleInputChange}
               />
               <FormHelperText id="tarefa_descricao_helper_text">
@@ -127,7 +86,7 @@ const EditarTarefa = ({
                   id="tarefa_inicio"
                   type="date"
                   aria-describedby="tarefa_inicio_helper_text"
-                  value={tarefaEditada.inicioTarefa}
+                  value={tarefa.inicioTarefa}
                   onChange={handleInputChange}
                   sx={{
                     color: "rgba(0, 0, 0, 0.6)",
@@ -147,7 +106,7 @@ const EditarTarefa = ({
                   id="tarefa_fim"
                   type="date"
                   aria-describedby="tarefa_fim_helper_text"
-                  value={tarefaEditada.fimTarefa}
+                  value={tarefa.fimTarefa}
                   onChange={handleInputChange}
                   sx={{
                     color: "rgba(0, 0, 0, 0.6)",
@@ -163,10 +122,11 @@ const EditarTarefa = ({
             <Grid item xs={3}>
               <FormControl fullWidth>
                 <InputLabel htmlFor="tarefa_recurso">Recurso</InputLabel>
+                
                 <Select
                   id="tarefa_recurso"
                   name="recursoTarefa"
-                  value={tarefaEditada.recursoTarefa}
+                  value={tarefa.recursoTarefa}
                   label="Recurso"
                   onChange={handleRecursoChange}
                   size="small"
@@ -180,11 +140,11 @@ const EditarTarefa = ({
             </Grid>
             <Grid item xs={3}>
               <FormControl fullWidth>
-                <InputLabel htmlFor="tarefa_recurso">Status</InputLabel>
+                <InputLabel htmlFor="tarefa_recurso">Status</InputLabel>              
                 <Select
                   id="tarefa_status"
                   name="statusTarefa"
-                  value={tarefaEditada.statusTarefa}
+                  value={tarefa.statusTarefa}
                   label="Status"
                   onChange={handleStatusChange}
                   size="small"
@@ -201,7 +161,7 @@ const EditarTarefa = ({
                 <Button
                   size="small"
                   variant="contained"
-                  onClick={() => handleEditar(idTarefaSelecionada)}
+                  onClick={() => handleEditar(tarefa)}
                 >
                   Salvar
                 </Button>
@@ -221,7 +181,7 @@ const EditarTarefa = ({
       </Card>
     </Grid>
   );
-};
+});
 
 const style = {
   position: "absolute",
