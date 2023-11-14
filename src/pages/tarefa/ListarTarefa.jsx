@@ -150,10 +150,14 @@ const ListarTarefa = () => {
         onClose={() => setOpenEditar(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-      >
+      >        
+        {/* EditarTarefa é um modal e não uma nova tela, com nota rota URL.
+            Pode-se passar todo o objeto tarefa sem precisar passar o ID e carregar ele
+            em EditarTarefa
+        */}
         <EditarTarefa
           handleCloseEditar={() => setOpenEditar(false)}
-          idTarefaSelecionada={tarefaSelecionada.id}
+          idTarefaSelecionada={tarefaSelecionada}
           tarefas={tarefas}
           setTarefas={setTarefas}
         />
