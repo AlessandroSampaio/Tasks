@@ -1,0 +1,31 @@
+{
+  "tarefas": [
+    {
+      "tituloTarefa": "odkspoksdg",
+      "descricaoTarefa": "peixe voador",
+      "inicioTarefa": "2023-11-08",
+      "fimTarefa": "2023-11-08",
+      "recursoTarefa": "Recurso 1",
+      "statusTarefa": "Concluída",
+      "id": 2
+    },
+    {
+      "id": 481,
+      "tituloTarefa": "buiub",
+      "descricaoTarefa": "huig",
+      "inicioTarefa": "2023-11-14",
+      "fimTarefa": "2023-11-22",
+      "recursoTarefa": "Recurso 1",
+      "statusTarefa": "Concluída"
+    },
+    {
+      "id": 739,
+      "tituloTarefa": "uigiuhi",
+      "descricaoTarefa": "hoioi",
+      "inicioTarefa": "2023-11-14",
+      "fimTarefa": "2023-11-22",
+      "recursoTarefa": "Recurso 1",
+      "statusTarefa": "Aguardando"
+    }
+  ]
+}
